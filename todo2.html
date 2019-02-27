@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="left">
+        <h1>Todos</h1>
+        <input type="text" placeholder="Add a Todo" v-model="newTodo" />
+        <button @click="addTodo">Add Todo</button>
+        <ul>
+          <li v-for="(todo, index) in todos" :key="index">
+            {{ todo.text }}
+            <button v-on:click="deleteTodo(index)">Delete</button>
+          </li>
+        </ul>
+      </div>
+      <div class="right">
+        <h1>A different componet</h1>
+        <p>There are currently {{ countTodos }} Todos</p>
+        <button v-on:click="removeAllTodos">Remove all Todos</button>
+        <p>{{ msg }}</p>
+      </div>
+    </div>
+  </body>
+  <script>
+    "use strict";
+    var app = new Vue({
+      el: "#app",
+      data: {
+        newTodo: "",
+        todos: [
+          {
+            text: "Eat food",
+            completed: true
+          },
+          {
+            text: "Exercise",
+            completed: false
+          }
+        ]
+      },
+      computed: {
+        countTodos: todos => {
+          return todos.length;
+        }
+      },
+      methods: {
+        addTodo: function(newTodo) {
+          var value = this.newTodo.trim();
+          if (!value) {
+            return;
+          }
+          this.todos.push({
+            text: value,
+            completed: false
+          });
+          this.newTodo = "";
+        },
+        deleteTodo: function(todo) {
+          var id = this.todos.indexOf(todo);
+          this.todos.splice(id, 1);
+        },
+        removeAllTodos: function() {
+          this.todos = [];
+          this.msg = "They have been removed";
+        }
+      }
+    });
+  </script>
+</html>

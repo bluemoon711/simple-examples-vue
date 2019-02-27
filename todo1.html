@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <h1>todos</h1>
+        <input type="text" placeholder="Todo item" v-model="newTodo" />
+        <button @click="addTodo">Add Todo</button>
+      </section>
+      <section>
+        <ul class="todo-list">
+          <li v-for="todo in todos" :key="todo.id">
+            <h4>{{ todo.text }}</h4>
+            <span @click="deleteTodo">x</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </body>
+  <script>
+    "use strict";
+    var app = new Vue({
+      el: "#app",
+      data: {
+        newTodo: "",
+        todos: [
+          {
+            text: "Eat food",
+            completed: true
+          },
+          {
+            text: "Exercise",
+            completed: false
+          }
+        ]
+      },
+      methods: {
+        addTodo: function(newTodo) {
+          var value = this.newTodo && this.newTodo.trim();
+          if (!value) {
+            return;
+          }
+          this.todos.push({
+            text: value,
+            completed: false
+          });
+          this.newTodo = "";
+        },
+        deleteTodo: function(todo) {
+          var id = this.todos.indexOf(todo);
+          this.todos.splice(id, 1);
+        }
+      }
+    });
+  </script>
+</html>
